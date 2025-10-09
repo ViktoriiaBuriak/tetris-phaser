@@ -6,10 +6,10 @@ export default class Preloader extends Scene {
     }
 
     preload() {
-        this.load.image('background', 'assets/back_2.jpg');
+        this.load.image('background', 'assets/back.png');
         this.load.spritesheet('block', 'assets/block.png', {
-            frameWidth: 64,
-            frameHeight: 64
+            frameWidth: 44,
+            frameHeight: 44
         });
     }
 

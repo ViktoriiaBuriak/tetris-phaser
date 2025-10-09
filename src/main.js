@@ -4,7 +4,7 @@ import Game from "./scenes/Game";
 const config = {
   type: Phaser.AUTO,
   width: 1024,
-  height: 768,
+  height: 880,
   parent: "game-container",
   backgroundColor: "#838586ff",
   scale: {
