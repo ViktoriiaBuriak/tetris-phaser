@@ -6,8 +6,6 @@ import { SHAPES } from "../utils/shapes";
 import { SHAPE_COLORS } from "../utils/shapes";
 import { board } from "../utils/constants";
 
-
-
 export default class Game extends Scene {
   constructor() {
     super("Game");
@@ -15,6 +13,16 @@ export default class Game extends Scene {
   }
 
   create() {
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        board[r][c] = null;
+      }
+    }
+
+    this.score = 0;
+
+    this.board = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+
     this.bg = this.add.image(0, 0, "background").setOrigin(0);
     this.displayWidth = this.bg.setDisplaySize(
       BLOCK_SIZE * COLS,
@@ -25,7 +33,7 @@ export default class Game extends Scene {
 
     this.spawnShape();
 
-    this.scoreText = this.add.text(516, 16, 'Score: 0', {
+    this.scoreText = this.add.text(516, 32, 'Score: 0', {
       fontSize: '32px',
       fill: '#fff'
     })
@@ -41,6 +49,11 @@ export default class Game extends Scene {
     } else {
       this.fixShape();
       this.clearFullRows();
+
+      if(this.checkGameOver(board)) {
+        this.scene.start('GameOver')
+      }
+      this.score = 0;
       this.spawnShape();
     }
 
@@ -213,5 +226,12 @@ export default class Game extends Scene {
         row++;
       }
     }
+  }
+
+  checkGameOver() {
+    for(let col = 0; col< COLS; col++) {
+      if(board[0][col] !== null) return true;
+    }
+    return false;
   }
 }

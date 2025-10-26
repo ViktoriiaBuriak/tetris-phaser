@@ -1,9 +1,10 @@
 import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
+import { GameOver } from "./scenes/GameOver";
 
 const config = {
   type: Phaser.AUTO,
-  width: 1024,
+  width: 778,
   height: 880,
   parent: "game-container",
   backgroundColor: "#838586ff",
@@ -18,7 +19,7 @@ const config = {
       debug: false, 
     },
   },
-  scene: [Preloader, Game],
+  scene: [Preloader, Game, GameOver],
 };
 
 export default new Phaser.Game(config);
