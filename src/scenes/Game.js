@@ -19,11 +19,8 @@ export default class Game extends Scene {
       }
     }
 
-    this.score = 0;
-
-    this.board = Array.from({length: ROWS}, () => Array(COLS).fill(null));
-
     this.bg = this.add.image(0, 0, "background").setOrigin(0);
+
     this.displayWidth = this.bg.setDisplaySize(
       BLOCK_SIZE * COLS,
       BLOCK_SIZE * ROWS
@@ -53,7 +50,6 @@ export default class Game extends Scene {
       if(this.checkGameOver(board)) {
         this.scene.start('GameOver')
       }
-      this.score = 0;
       this.spawnShape();
     }
 
