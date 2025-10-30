@@ -1,6 +1,7 @@
 import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
 import { GameOver } from "./scenes/GameOver";
+import { MainMenu } from "./scenes/MainMenu";
 
 const config = {
   type: Phaser.AUTO,
@@ -16,10 +17,10 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false, 
+      debug: false,
     },
   },
-  scene: [Preloader, Game, GameOver],
+  scene: [Preloader, MainMenu, Game, GameOver],
 };
 
 export default new Phaser.Game(config);

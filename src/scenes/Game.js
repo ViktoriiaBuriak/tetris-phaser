@@ -21,6 +21,9 @@ export default class Game extends Scene {
 
     this.bg = this.add.image(0, 0, "background").setOrigin(0);
 
+    this.bgMusic = this.sound.add("bg", {loop: true});
+    this.bgMusic.play();
+
     this.displayWidth = this.bg.setDisplaySize(
       BLOCK_SIZE * COLS,
       BLOCK_SIZE * ROWS
@@ -30,10 +33,10 @@ export default class Game extends Scene {
 
     this.spawnShape();
 
-    this.scoreText = this.add.text(516, 32, 'Score: 0', {
-      fontSize: '32px',
-      fill: '#fff'
-    })
+    this.scoreText = this.add.text(516, 32, "Score: 0", {
+      fontSize: "32px",
+      fill: "#fff",
+    });
   }
 
   update() {
@@ -47,8 +50,9 @@ export default class Game extends Scene {
       this.fixShape();
       this.clearFullRows();
 
-      if(this.checkGameOver(board)) {
-        this.scene.start('GameOver')
+      if (this.checkGameOver(board)) {
+        this.bgMusic.stop();
+        this.scene.start("GameOver");
       }
       this.spawnShape();
     }
@@ -65,8 +69,8 @@ export default class Game extends Scene {
       this.currentShape.forEach((block) => (block.y += 5));
     }
 
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
-      this.rotateShape()
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+      this.rotateShape();
     }
   }
 
@@ -99,7 +103,6 @@ export default class Game extends Scene {
     });
 
     this.currentShape = blocks;
-
   }
 
   // Фіксуємо фігуру
@@ -157,11 +160,11 @@ export default class Game extends Scene {
   // Обертаємо фігуру
 
   rotateShape() {
-    if(!this.currentShape) return;
+    if (!this.currentShape) return;
 
     const pivot = this.currentShape[0];
 
-    const newPosition = this.currentShape.map(block => {
+    const newPosition = this.currentShape.map((block) => {
       const x = (block.x - pivot.x) / BLOCK_SIZE;
       const y = (block.y - pivot.y) / BLOCK_SIZE;
 
@@ -171,10 +174,10 @@ export default class Game extends Scene {
       return {
         x: pivot.x + rotatedX * BLOCK_SIZE,
         y: pivot.y + rotatedY * BLOCK_SIZE,
-      }
-    })
+      };
+    });
 
-    for(let pos of newPosition) {
+    for (let pos of newPosition) {
       const col = Math.floor(pos.x / BLOCK_SIZE);
       const row = Math.floor(pos.y / BLOCK_SIZE);
 
@@ -184,7 +187,7 @@ export default class Game extends Scene {
         row < 0 ||
         row >= ROWS ||
         (board[row] && board[row][col] !== null)
-      ){
+      ) {
         return;
       }
     }
@@ -192,14 +195,14 @@ export default class Game extends Scene {
     this.currentShape.forEach((block, i) => {
       block.x = newPosition[i].x;
       block.y = newPosition[i].y;
-    })
+    });
   }
 
   // Очищуємо заповнені рядки
 
-  clearFullRows () {
-    for (let row = ROWS - 1; row >=0; row--) {
-      const isFull = board[row].every(cell => cell !== null);
+  clearFullRows() {
+    for (let row = ROWS - 1; row >= 0; row--) {
+      const isFull = board[row].every((cell) => cell !== null);
 
       if (isFull) {
         for (let col = 0; col < COLS; col++) {
@@ -218,15 +221,15 @@ export default class Game extends Scene {
           }
         }
         this.score += 10;
-        this.scoreText.setText('Score: ' + this.score);
+        this.scoreText.setText("Score: " + this.score);
         row++;
       }
     }
   }
 
   checkGameOver() {
-    for(let col = 0; col< COLS; col++) {
-      if(board[0][col] !== null) return true;
+    for (let col = 0; col < COLS; col++) {
+      if (board[0][col] !== null) return true;
     }
     return false;
   }
