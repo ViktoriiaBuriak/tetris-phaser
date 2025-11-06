@@ -33,10 +33,39 @@ export default class Game extends Scene {
 
     this.spawnShape();
 
-    this.scoreText = this.add.text(516, 32, "Score: 0", {
+    this.scoreText = this.add.text(484, 32, "Score: 0", {
       fontSize: "32px",
       fill: "#fff",
     });
+
+    if (this.sys.game.device.input.touch) {
+      let startX = 0;
+      let startY = 0;
+
+      this.input.on("pointerdown", (pointer) => {
+        startX = pointer.x;
+        startY = pointer.y;
+      });
+
+      this.input.on("pointerup", (pointer) => {
+        const deltaX = pointer.x - startX;
+        const deltaY = pointer.y - startY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX > 50) {
+            this.moveShape(1);
+          } else if (deltaX < -50) {
+            this.moveShape(-1);
+          }
+        } else {
+          if (deltaY > 30) {
+            this.currentShape.forEach((block) => (block.y += 20));
+          } else if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
+            this.rotateShape();
+          }
+        }
+      });
+    }
   }
 
   update() {
@@ -122,8 +151,8 @@ export default class Game extends Scene {
     let canMove = true;
 
     for (let block of this.currentShape) {
-      const col = Math.floor(block.x / BLOCK_SIZE) + dir;
-      const row = Math.floor(block.y / BLOCK_SIZE);
+      const col = Math.round(block.x / BLOCK_SIZE) + dir;
+      const row = Math.round(block.y / BLOCK_SIZE);
 
       if (col < 0 || col >= COLS) {
         canMove = false;
