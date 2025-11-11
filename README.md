@@ -54,7 +54,3 @@
 
 **Вікторія Буряк**  
 [GitHub профіль](https://github.com/ViktoriiaBuriak)
-
-
-# Запустити локальний сервер
-npm run dev
