@@ -21,7 +21,7 @@ export default class Game extends Scene {
 
     this.bg = this.add.image(0, 0, "background").setOrigin(0);
 
-    this.bgMusic = this.sound.add("bg", {loop: true});
+    this.bgMusic = this.sound.add("bg", { loop: true });
     this.bgMusic.play();
 
     this.displayWidth = this.bg.setDisplaySize(
@@ -58,8 +58,8 @@ export default class Game extends Scene {
             this.moveShape(-1);
           }
         } else {
-          if (deltaY > 30) {
-            this.currentShape.forEach((block) => (block.y += 20));
+          if (deltaY > 50) {
+            this.currentShape.forEach((block) => (block.y += 1));
           } else if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
             this.rotateShape();
           }
@@ -138,8 +138,8 @@ export default class Game extends Scene {
 
   fixShape() {
     for (let block of this.currentShape) {
-      const col = Math.floor(block.x / BLOCK_SIZE);
-      const row = Math.floor(block.y / BLOCK_SIZE);
+      const col = Math.round(block.x / BLOCK_SIZE);
+      const row = Math.round(block.y / BLOCK_SIZE);
       board[row][col] = block;
     }
     this.currentShape = null;
